@@ -20,9 +20,9 @@ namespace RecipeAPI.Controllers
         }
 
         // GET api/recipes
-        public IEnumerable<string> Get()
+        public IEnumerable<DetailedRecipe> Get()
         {
-            return RecipeRepo.GetAll().Select(x => x.Name);
+            return RecipeRepo.GetAll().Select(r => new DetailedRecipe(r));
         }
 
         // GET api/recipe/5

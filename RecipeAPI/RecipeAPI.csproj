@@ -131,6 +131,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\RecipesController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
+    <Compile Include="Models\DetailedRecipe.cs" />
     <Compile Include="Models\DietaryRequirement.cs">
       <DependentUpon>RecipesModel.tt</DependentUpon>
     </Compile>
