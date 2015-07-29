@@ -3,14 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Newtonsoft.Json;
+using RecipeAPI.Repositories;
 
 namespace RecipeAPI.Models
 {
     public class DetailedRecipe
     {
-        public DetailedRecipe() { }
+        private InstructionRepository InstructionRepo { get; set; }
 
-        public DetailedRecipe(Recipe recipe)
+        public DetailedRecipe() 
+        {
+            // TODO: Extract repo initialization and all joins into a service, keep this just for data
+            InstructionRepo = new InstructionRepository(new RecipesEntities());
+        }
+
+        public DetailedRecipe(Recipe recipe) : this()
         {
             PopulateFromRecipe(recipe);
         }
@@ -24,7 +31,7 @@ namespace RecipeAPI.Models
             CookTime = recipe.CookTime.ToString();
             NumberOfServings = recipe.NumberOfServings.ToString();
             Author = recipe.Author;
-            Instructions = new List<Instruction>();
+            Instructions = InstructionRepo.GetInstructionsForRecipe(recipe).Select(i => new DetailedInstruction(i));
         }
 
         public string Name;
@@ -35,6 +42,6 @@ namespace RecipeAPI.Models
         public string NumberOfServings;
         public string Author;
         
-        public ICollection<Instruction> Instructions { get; set; }
+        public IEnumerable<DetailedInstruction> Instructions { get; set; }
     }
 }

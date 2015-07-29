@@ -131,6 +131,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\RecipesController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
+    <Compile Include="Models\DetailedInstruction.cs" />
     <Compile Include="Models\DetailedRecipe.cs" />
     <Compile Include="Models\DietaryRequirement.cs">
       <DependentUpon>RecipesModel.tt</DependentUpon>
@@ -175,6 +176,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>RecipesModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Repositories\InstructionRepository.cs" />
     <Compile Include="Repositories\RecipeRepository.cs" />
     <Compile Include="Repositories\Repository.cs" />
   </ItemGroup>
