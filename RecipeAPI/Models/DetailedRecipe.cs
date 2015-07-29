@@ -21,7 +21,7 @@ namespace RecipeAPI.Models
             Author = recipe.Author;
 
             Instructions = recipe.Instructions.Select(i => new DetailedInstruction(i));
-            Ingredients = recipe.RecipeIngredients.Select(i => new DetailedIngredient(i));
+            Ingredients = recipe.RecipeIngredients.Select(i => new DetailedRecipeIngredient(i));
             Equipment = recipe.RecipeEquipments.Select(e => new DetailedEquipment(e));
         }
 
@@ -35,7 +35,7 @@ namespace RecipeAPI.Models
 
         public IEnumerable<DetailedInstruction> Instructions { get; set; }
 
-        public IEnumerable<DetailedIngredient> Ingredients { get; set; }
+        public IEnumerable<DetailedRecipeIngredient> Ingredients { get; set; }
 
         public IEnumerable<DetailedEquipment> Equipment { get; set; }
     }

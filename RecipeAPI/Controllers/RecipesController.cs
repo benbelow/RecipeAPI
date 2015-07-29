@@ -24,11 +24,5 @@ namespace RecipeAPI.Controllers
         {
             return RecipeRepo.GetAll().Select(r => new DetailedRecipe(r));
         }
-
-        // GET api/recipe/5
-        public string Get(int id)
-        {
-            return "value";
-        }
     }
 }
