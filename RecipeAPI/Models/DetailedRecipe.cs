@@ -4,34 +4,25 @@ using System.Linq;
 using System.Web;
 using Newtonsoft.Json;
 using RecipeAPI.Repositories;
+using RecipeAPI.Models;
 
 namespace RecipeAPI.Models
 {
     public class DetailedRecipe
     {
-        private InstructionRepository InstructionRepo { get; set; }
 
-        public DetailedRecipe() 
-        {
-            // TODO: Extract repo initialization and all joins into a service, keep this just for data
-            InstructionRepo = new InstructionRepository(new RecipesEntities());
-        }
-
-        public DetailedRecipe(Recipe recipe) : this()
-        {
-            PopulateFromRecipe(recipe);
-        }
-
-        private void PopulateFromRecipe(Recipe recipe)
-        {
+        public DetailedRecipe(Recipe recipe) {
             Name = recipe.Name;
-            Description = recipe.Description;
+            Description = recipe.Description; ;
             MealType = recipe.MealType;
             PreparationTime = recipe.PreparationTime.ToString();
             CookTime = recipe.CookTime.ToString();
             NumberOfServings = recipe.NumberOfServings.ToString();
             Author = recipe.Author;
-            Instructions = InstructionRepo.GetInstructionsForRecipe(recipe).Select(i => new DetailedInstruction(i));
+
+            Instructions = recipe.Instructions.Select(i => new DetailedInstruction(i));
+            Ingredients = recipe.RecipeIngredients.Select(i => new DetailedIngredient(i));
+            Equipment = recipe.RecipeEquipments.Select(e => new DetailedEquipment(e));
         }
 
         public string Name;
@@ -41,7 +32,11 @@ namespace RecipeAPI.Models
         public string CookTime;
         public string NumberOfServings;
         public string Author;
-        
+
         public IEnumerable<DetailedInstruction> Instructions { get; set; }
+
+        public IEnumerable<DetailedIngredient> Ingredients { get; set; }
+
+        public IEnumerable<DetailedEquipment> Equipment { get; set; }
     }
 }

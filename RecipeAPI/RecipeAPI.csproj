@@ -131,6 +131,8 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\RecipesController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
+    <Compile Include="Models\DetailedEquipment.cs" />
+    <Compile Include="Models\DetailedIngredient.cs" />
     <Compile Include="Models\DetailedInstruction.cs" />
     <Compile Include="Models\DetailedRecipe.cs" />
     <Compile Include="Models\DietaryRequirement.cs">
@@ -176,6 +178,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>RecipesModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Repositories\RecipeIngredientRepository.cs" />
+    <Compile Include="Repositories\IngredientRepository.cs" />
     <Compile Include="Repositories\InstructionRepository.cs" />
     <Compile Include="Repositories\RecipeRepository.cs" />
     <Compile Include="Repositories\Repository.cs" />
