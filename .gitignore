@@ -1,1 +1,5 @@
 RecipeAPI.v12.suo
+RecipeAPI/obj/
+RecipeAPI/bin/
+bin/
+obj/
