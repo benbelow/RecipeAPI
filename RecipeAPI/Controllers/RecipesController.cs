@@ -49,5 +49,26 @@ namespace RecipeAPI.Controllers
                                       .Where(r => minNumberOfServings == null || r.NumberOfServings >= minNumberOfServings);
         }
 
+        /// <summary>
+        /// Searches recipes that only contain ingredients and recipes you specify
+        /// </summary>
+        /// <param name="ownedIngredients">Ingredients you have but do not require to be in the dish</param>
+        /// <param name="requiredIngredients">Ingredients you have which the dish must contain</param>
+        /// <param name="equipment">Equipment you have</param>
+        /// <returns></returns>
+        [HttpGet]
+        public IEnumerable<DetailedRecipe> GetWithWhatIHave([FromUri] List<string> ownedIngredients = null,
+                                                            [FromUri] List<string> requiredIngredients = null,
+                                                            [FromUri] List<string> equipment = null)
+        {
+            var totalIngredients = ownedIngredients.Concat(requiredIngredients);
+
+            return RecipeRepo.GetAll().Select(r => new DetailedRecipe(r))
+                                      .Where(r => r.Ingredients.All(ri => totalIngredients.Any(i => i.Equals(ri.Name, StringComparison.OrdinalIgnoreCase))))
+                                      .Where(r => requiredIngredients.All(i => r.Ingredients.Any(ri => i.Equals(ri.Name, StringComparison.OrdinalIgnoreCase))))
+                                      .Where(r => r.Equipment.All(re => equipment.Any(e => e.Equals(re.Name, StringComparison.OrdinalIgnoreCase))));
+        }
+
+
     }
 }
