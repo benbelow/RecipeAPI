@@ -143,6 +143,7 @@
     <Compile Include="Controllers\EquipmentController.cs" />
     <Compile Include="Controllers\IngredientsController.cs" />
     <Compile Include="Controllers\RecipesController.cs" />
+    <Compile Include="Helpers\Extensions\ListExtensions.cs" />
     <Compile Include="Helpers\Extensions\StringExtensions.cs" />
     <Compile Include="Models\DetailedIngredient.cs" />
     <Compile Include="Models\DetailedEquipment.cs" />

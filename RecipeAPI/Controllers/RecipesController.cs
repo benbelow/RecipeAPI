@@ -39,11 +39,13 @@ namespace RecipeAPI.Controllers
                                                int? maxTotalTime = null,
                                                int? minNumberOfServings = null)
         {
+            var totalIngredients = ingredientsAny.Concat(ingredientsAll).ToList();
+
             return RecipeRepo.GetAll().Select(r => new DetailedRecipe(r))
                                       .Where(r => name.Split(' ').All(substring => r.Name.Contains(substring, StringComparison.OrdinalIgnoreCase)))
                                       .Where(r => mealType == "" || r.MealType.Equals(mealType, StringComparison.OrdinalIgnoreCase))
                                       .Where(r => ingredientsAll.All(i => r.Ingredients.Any(ri => ri.Name.Equals(i, StringComparison.OrdinalIgnoreCase))))
-                                      .Where(r => ingredientsAny.Count == 0 || ingredientsAny.Concat(ingredientsAll).Any(i => r.Ingredients.Any(ri => ri.Name.Equals(i, StringComparison.OrdinalIgnoreCase))))
+                                      .Where(r => ingredientsAny.Count == 0 || totalIngredients.Any(i => r.Ingredients.Any(ri => ri.Name.Equals(i, StringComparison.OrdinalIgnoreCase))))
                                       .Where(r => equipment.Count == 0 || equipment.Any(e => r.Equipment.Any(re => re.Name.Equals(e, StringComparison.OrdinalIgnoreCase))))
                                       .Where(r => maxTotalTime == null || r.PreparationTime + r.CookTime <= maxTotalTime)
                                       .Where(r => minNumberOfServings == null || r.NumberOfServings >= minNumberOfServings);
@@ -54,19 +56,19 @@ namespace RecipeAPI.Controllers
         /// </summary>
         /// <param name="ownedIngredients">Ingredients you have but do not require to be in the dish</param>
         /// <param name="requiredIngredients">Ingredients you have which the dish must contain</param>
-        /// <param name="equipment">Equipment you have</param>
+        /// <param name="equipment">Equipment you have. Leave blank to not filter by equipment</param>
         /// <returns></returns>
         [HttpGet]
         public IEnumerable<DetailedRecipe> GetWithWhatIHave([FromUri] List<string> ownedIngredients = null,
                                                             [FromUri] List<string> requiredIngredients = null,
                                                             [FromUri] List<string> equipment = null)
         {
-            var totalIngredients = ownedIngredients.Concat(requiredIngredients);
+            var totalIngredients = ownedIngredients.Concat(requiredIngredients).ToList();
 
             return RecipeRepo.GetAll().Select(r => new DetailedRecipe(r))
-                                      .Where(r => r.Ingredients.All(ri => totalIngredients.Any(i => i.Equals(ri.Name, StringComparison.OrdinalIgnoreCase))))
+                                      .Where(r => r.Ingredients.All(ri => totalIngredients.Contains(ri.Name, StringComparison.OrdinalIgnoreCase)))
                                       .Where(r => requiredIngredients.All(i => r.Ingredients.Any(ri => i.Equals(ri.Name, StringComparison.OrdinalIgnoreCase))))
-                                      .Where(r => r.Equipment.All(re => equipment.Any(e => e.Equals(re.Name, StringComparison.OrdinalIgnoreCase))));
+                                      .Where(r => equipment.Count == 0 || r.Equipment.All(re => equipment.Any(e => e.Equals(re.Name, StringComparison.OrdinalIgnoreCase))));
         }
 
 
