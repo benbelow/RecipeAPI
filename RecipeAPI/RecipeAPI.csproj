@@ -140,8 +140,10 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\EquipmentController.cs" />
     <Compile Include="Controllers\IngredientsController.cs" />
     <Compile Include="Controllers\RecipesController.cs" />
+    <Compile Include="Helpers\Extensions\StringExtensions.cs" />
     <Compile Include="Models\DetailedIngredient.cs" />
     <Compile Include="Models\DetailedEquipment.cs" />
     <Compile Include="Models\DetailedRecipeIngredient.cs" />
@@ -190,6 +192,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>RecipesModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Repositories\EquipmentRepository.cs" />
+    <Compile Include="Repositories\RecipeEquipmentRepository.cs" />
     <Compile Include="Repositories\RecipeIngredientRepository.cs" />
     <Compile Include="Repositories\IngredientRepository.cs" />
     <Compile Include="Repositories\InstructionRepository.cs" />
