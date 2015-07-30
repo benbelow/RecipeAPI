@@ -24,5 +24,16 @@ namespace RecipeAPI.Controllers
         {
             return IngredientRepo.GetAll().Select(i => new DetailedIngredient(i));
         }
+
+        [HttpPost]
+        public HttpResponseMessage PostIngredient(string name)
+        {
+            var ingredient = new Ingredient { Name = name };
+            IngredientRepo.Add(ingredient);
+            IngredientRepo.SaveContext();
+
+            var response = Request.CreateResponse(HttpStatusCode.Created);
+            return response;
+        }
     }
 }
