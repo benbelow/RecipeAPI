@@ -10,12 +10,12 @@ namespace RecipeAPI.Models
         public DetailedRecipeIngredient(RecipeIngredient recipeIngredient)
         {
             Name = recipeIngredient.Ingredient.Name;
-            Amount = recipeIngredient.Amount.ToString();
+            Amount = recipeIngredient.Amount;
             Units = recipeIngredient.Units;
         }
 
         public String Name { get; set; }
-        public String Amount { get; set; }
+        public int Amount { get; set; }
         public String Units { get; set; }
     }
 }

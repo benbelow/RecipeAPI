@@ -15,9 +15,9 @@ namespace RecipeAPI.Models
             Name = recipe.Name;
             Description = recipe.Description; ;
             MealType = recipe.MealType;
-            PreparationTime = recipe.PreparationTime.ToString();
-            CookTime = recipe.CookTime.ToString();
-            NumberOfServings = recipe.NumberOfServings.ToString();
+            PreparationTime = recipe.PreparationTime;
+            CookTime = recipe.CookTime;
+            NumberOfServings = recipe.NumberOfServings;
             Author = recipe.Author;
 
             Instructions = recipe.Instructions.Select(i => new DetailedInstruction(i));
@@ -28,9 +28,9 @@ namespace RecipeAPI.Models
         public string Name;
         public string Description;
         public string MealType;
-        public string PreparationTime;
-        public string CookTime;
-        public string NumberOfServings;
+        public int PreparationTime;
+        public int CookTime;
+        public int NumberOfServings;
         public string Author;
 
         public IEnumerable<DetailedInstruction> Instructions { get; set; }
