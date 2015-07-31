@@ -50,6 +50,10 @@ namespace RecipeAPI.Controllers
                                                int? maxTotalTime = null,
                                                int? minNumberOfServings = null)
         {
+            ingredientsAll = ingredientsAll ?? new List<string>();
+            ingredientsAny = ingredientsAny ?? new List<string>();
+            equipment = equipment?? new List<string>();
+
             var totalIngredients = ingredientsAny.Concat(ingredientsAll).ToList();
 
             return RecipeRepo.GetAll().Select(r => new DetailedRecipe(r))
