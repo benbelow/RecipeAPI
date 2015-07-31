@@ -149,6 +149,10 @@
     <Compile Include="Migrations\201507311352392_initial.Designer.cs">
       <DependentUpon>201507311352392_initial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201507311742542_AddUniqueConstraints.cs" />
+    <Compile Include="Migrations\201507311742542_AddUniqueConstraints.Designer.cs">
+      <DependentUpon>201507311742542_AddUniqueConstraints.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\DetailedIngredient.cs" />
     <Compile Include="Models\DetailedEquipment.cs" />
@@ -205,6 +209,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201507311352392_initial.resx">
       <DependentUpon>201507311352392_initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201507311742542_AddUniqueConstraints.resx">
+      <DependentUpon>201507311742542_AddUniqueConstraints.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
