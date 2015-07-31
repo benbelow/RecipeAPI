@@ -15,10 +15,11 @@ namespace RecipeAPI
             config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(
-                name: "DefaultApi",
+                name: "Api With Action",
                 routeTemplate: "api/{controller}/{action}/{id}",
-                defaults: new { id = RouteParameter.Optional }
+                defaults: new { action = RouteParameter.Optional, id = RouteParameter.Optional }
             );
+
         }
     }
 }

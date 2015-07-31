@@ -31,7 +31,8 @@ namespace RecipeAPI.Controllers
         /// <param name="equipment">List of cooking equipment, any of which should be used in in the recipe</param>
         /// <param name="maxTotalTime">Maximum time to prepare and cook the meal</param>
         /// <param name="minNumberOfServings">Minimum number of servings</param>
-        public IEnumerable<DetailedRecipe> Get(string name = "",
+        [Route("api/Recipes")]
+        public IEnumerable<DetailedRecipe> GetRecipes(string name = "",
                                                string mealType = "",
                                                [FromUri] List<string> ingredientsAny = null,
                                                [FromUri] List<string> ingredientsAll = null,
@@ -59,7 +60,8 @@ namespace RecipeAPI.Controllers
         /// <param name="equipment">Equipment you have. Leave blank to not filter by equipment</param>
         /// <returns></returns>
         [HttpGet]
-        public IEnumerable<DetailedRecipe> GetWithWhatIHave([FromUri] List<string> ownedIngredients = null,
+        [ActionName("With")]
+        public IEnumerable<DetailedRecipe> WithWhatIHave([FromUri] List<string> ownedIngredients = null,
                                                             [FromUri] List<string> requiredIngredients = null,
                                                             [FromUri] List<string> equipment = null)
         {
