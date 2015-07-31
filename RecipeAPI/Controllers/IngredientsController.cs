@@ -16,7 +16,7 @@ namespace RecipeAPI.Controllers
 
         public IngredientsController()
         {
-            IngredientRepo = new IngredientRepository(new RecipesEntities());
+            IngredientRepo = new IngredientRepository(new RecipesContext());
         }
 
         // GET api/ingredients

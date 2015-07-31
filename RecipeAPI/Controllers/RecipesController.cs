@@ -22,12 +22,12 @@ namespace RecipeAPI.Controllers
 
         public RecipesController()
         {
-            RecipeRepo = new RecipeRepository(new RecipesEntities());
-            InstructionRepo = new InstructionRepository(new RecipesEntities());
-            IngredientRepo = new IngredientRepository(new RecipesEntities());
-            RecipeIngredientRepo = new RecipeIngredientRepository(new RecipesEntities());
-            EquipmentRepo = new EquipmentRepository(new RecipesEntities());
-            RecipeEquipmentRepo = new RecipeEquipmentRepository(new RecipesEntities());
+            RecipeRepo = new RecipeRepository(new RecipesContext());
+            InstructionRepo = new InstructionRepository(new RecipesContext());
+            IngredientRepo = new IngredientRepository(new RecipesContext());
+            RecipeIngredientRepo = new RecipeIngredientRepository(new RecipesContext());
+            EquipmentRepo = new EquipmentRepository(new RecipesContext());
+            RecipeEquipmentRepo = new RecipeEquipmentRepository(new RecipesContext());
         }
 
         // GET api/recipes
