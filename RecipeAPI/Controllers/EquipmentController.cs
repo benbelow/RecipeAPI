@@ -26,7 +26,7 @@ namespace RecipeAPI.Controllers
         }
 
         [HttpPost]
-        public HttpResponseMessage PostIngredient(string name)
+        public HttpResponseMessage PostEquipment(string name)
         {
             var equipment = new Equipment { Name = name };
             EquipmentRepo.Add(equipment);
