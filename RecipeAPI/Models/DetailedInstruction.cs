@@ -7,13 +7,15 @@ namespace RecipeAPI.Models
 {
     public class DetailedInstruction
     {
+        public DetailedInstruction() { }
+
         public DetailedInstruction(Instruction instruction)
         {
-            StepNumber = instruction.StepNumber.ToString();
+            StepNumber = instruction.StepNumber;
             StepDescription = instruction.StepDescription;
         }
 
-        public String StepNumber { get; set; }
+        public int StepNumber { get; set; }
         public String StepDescription { get; set; }
     }
 }

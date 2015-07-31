@@ -7,6 +7,8 @@ namespace RecipeAPI.Models
 {
     public class DetailedEquipment
     {
+        public DetailedEquipment() { }
+
         public DetailedEquipment(Equipment equipment)
         {
             Name = equipment.Name;

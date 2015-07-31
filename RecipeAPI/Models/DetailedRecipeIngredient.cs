@@ -7,6 +7,8 @@ namespace RecipeAPI.Models
 {
     public class DetailedRecipeIngredient
     {
+        public DetailedRecipeIngredient() { }
+
         public DetailedRecipeIngredient(RecipeIngredient recipeIngredient)
         {
             Name = recipeIngredient.Ingredient.Name;

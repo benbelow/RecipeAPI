@@ -9,10 +9,16 @@ namespace RecipeAPI.Repositories
 {
     public interface IIngredientRepository : IRepository<Ingredient>
     {
+        Ingredient GetIngredientByName(string name);
     }
 
     public class IngredientRepository : Repository<Ingredient>, IIngredientRepository
     {
         public IngredientRepository(DbContext context) : base(context) { }
+
+        public Ingredient GetIngredientByName(string name)
+        {
+            return GetAll().SingleOrDefault(i => i.Name == name);
+        }
     }
 }

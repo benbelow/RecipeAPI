@@ -14,10 +14,20 @@ namespace RecipeAPI.Controllers
     public class RecipesController : ApiController
     {
         private IRecipeRepository RecipeRepo { get; set; }
+        private IInstructionRepository InstructionRepo { get; set; }
+        private IIngredientRepository IngredientRepo { get; set; }
+        private IRecipeIngredientRepository RecipeIngredientRepo { get; set; }
+        private IEquipmentRepository EquipmentRepo { get; set; }
+        private IRecipeEquipmentRepository RecipeEquipmentRepo{ get; set; }
 
         public RecipesController()
         {
             RecipeRepo = new RecipeRepository(new RecipesEntities());
+            InstructionRepo = new InstructionRepository(new RecipesEntities());
+            IngredientRepo = new IngredientRepository(new RecipesEntities());
+            RecipeIngredientRepo = new RecipeIngredientRepository(new RecipesEntities());
+            EquipmentRepo = new EquipmentRepository(new RecipesEntities());
+            RecipeEquipmentRepo = new RecipeEquipmentRepository(new RecipesEntities());
         }
 
         // GET api/recipes
@@ -71,6 +81,102 @@ namespace RecipeAPI.Controllers
                                       .Where(r => r.Ingredients.All(ri => totalIngredients.Contains(ri.Name, StringComparison.OrdinalIgnoreCase)))
                                       .Where(r => requiredIngredients.All(i => r.Ingredients.Any(ri => i.Equals(ri.Name, StringComparison.OrdinalIgnoreCase))))
                                       .Where(r => equipment.Count == 0 || r.Equipment.All(re => equipment.Any(e => e.Equals(re.Name, StringComparison.OrdinalIgnoreCase))));
+        }
+
+        public HttpResponseMessage PostRecipe(string name,
+                                              string description,
+                                              string mealType,
+                                              int prepTime,
+                                              int cookTime,
+                                              int numberOfServings,
+                                              string author,
+                                              [FromBody] RecipePostData postData)
+        {
+            var instructions = postData.Instructions;
+            var ingredients = postData.Ingredients;
+            var equipment = postData.Equipment;
+
+            var recipe = new Recipe
+            {
+                Name = name,
+                Description = description,
+                MealType = mealType,
+                PreparationTime = prepTime,
+                CookTime = cookTime,
+                NumberOfServings = numberOfServings,
+                Author = author
+            };
+
+            RecipeRepo.Add(recipe);
+            RecipeRepo.SaveContext();
+
+            foreach (var detailedInstruction in instructions)
+            {
+                var instruction = new Instruction
+                {
+                    StepNumber = detailedInstruction.StepNumber,
+                    StepDescription = detailedInstruction.StepDescription,
+                    RecipeID = recipe.RecipeID
+                };
+                InstructionRepo.Add(instruction);
+            }
+
+            foreach (var detailedRecipeIngredient in ingredients)
+            {
+                var ingredient = IngredientRepo.GetIngredientByName(detailedRecipeIngredient.Name);
+
+                if (ingredient == null)
+                {
+                    ingredient = new Ingredient
+                    {
+                        Name = detailedRecipeIngredient.Name
+                    };
+
+                    IngredientRepo.Add(ingredient);
+                    IngredientRepo.SaveContext();
+                }
+
+                var recipeIngredient = new RecipeIngredient
+                {
+                    RecipeID = recipe.RecipeID,
+                    IngredientID = ingredient.IngredientID,
+                    Amount = detailedRecipeIngredient.Amount,
+                    Units = detailedRecipeIngredient.Units
+                };
+
+                RecipeIngredientRepo.Add(recipeIngredient);
+            }
+
+            foreach (var detailedEquipment in equipment)
+            {
+                var singleEquipment = EquipmentRepo.GetEquipmentByName(detailedEquipment.Name);
+
+                if (singleEquipment == null)
+                {
+                    singleEquipment = new Equipment
+                    {
+                        Name = detailedEquipment.Name,
+                    };
+
+                    EquipmentRepo.Add(singleEquipment);
+                    EquipmentRepo.SaveContext();
+                }
+
+                var recipeEquipment = new RecipeEquipment
+                {
+                    RecipeID = recipe.RecipeID,
+                    EquipmentID = singleEquipment.EquipmentID
+                };
+
+                RecipeEquipmentRepo.Add(recipeEquipment);
+            }
+
+            InstructionRepo.SaveContext();
+            RecipeIngredientRepo.SaveContext();
+            RecipeEquipmentRepo.SaveContext();
+
+            var response = Request.CreateResponse(HttpStatusCode.Created);
+            return response;
         }
 
 
