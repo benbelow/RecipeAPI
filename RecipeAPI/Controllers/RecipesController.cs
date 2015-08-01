@@ -41,6 +41,8 @@ namespace RecipeAPI.Controllers
         /// <param name="equipment">List of cooking equipment, any of which should be used in in the recipe</param>
         /// <param name="maxTotalTime">Maximum time to prepare and cook the meal</param>
         /// <param name="minNumberOfServings">Minimum number of servings</param>
+        /// <param name="limit"></param>
+        /// <param name="offset"></param>
         [Route("api/Recipes")]
         public IEnumerable<DetailedRecipe> GetRecipes(string name = "",
                                                string mealType = "",
@@ -48,22 +50,16 @@ namespace RecipeAPI.Controllers
                                                [FromUri] List<string> ingredientsAll = null,
                                                [FromUri] List<string> equipment = null,
                                                int? maxTotalTime = null,
-                                               int? minNumberOfServings = null)
+                                               int? minNumberOfServings = null,
+                                               int limit = 100,
+                                               int offset = 0)
         {
             ingredientsAll = ingredientsAll ?? new List<string>();
             ingredientsAny = ingredientsAny ?? new List<string>();
             equipment = equipment?? new List<string>();
-
-            var totalIngredients = ingredientsAny.Concat(ingredientsAll).ToList();
-
-            return RecipeRepo.GetAll().Select(r => new DetailedRecipe(r))
-                                      .Where(r => name.Split(' ').All(substring => r.Name.Contains(substring, StringComparison.OrdinalIgnoreCase)))
-                                      .Where(r => mealType == "" || r.MealType.Equals(mealType, StringComparison.OrdinalIgnoreCase))
-                                      .Where(r => ingredientsAll.All(i => r.Ingredients.Any(ri => ri.Name.Equals(i, StringComparison.OrdinalIgnoreCase))))
-                                      .Where(r => ingredientsAny.Count == 0 || totalIngredients.Any(i => r.Ingredients.Any(ri => ri.Name.Equals(i, StringComparison.OrdinalIgnoreCase))))
-                                      .Where(r => equipment.Count == 0 || equipment.Any(e => r.Equipment.Any(re => re.Name.Equals(e, StringComparison.OrdinalIgnoreCase))))
-                                      .Where(r => maxTotalTime == null || r.PreparationTime + r.CookTime <= maxTotalTime)
-                                      .Where(r => minNumberOfServings == null || r.NumberOfServings >= minNumberOfServings);
+            
+            return RecipeRepo.FilterRecipes(name, mealType, ingredientsAny, ingredientsAll, equipment, maxTotalTime,minNumberOfServings,limit,offset)
+                             .Select(r => new DetailedRecipe(r));
         }
 
         /// <summary>
