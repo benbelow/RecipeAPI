@@ -18,10 +18,10 @@ namespace RecipeAPI.Models.Mapping
             this.Property(t => t.EquipmentID).HasColumnName("EquipmentID");
 
             // Relationships
-            this.HasOptional(t => t.Equipment)
+            this.HasRequired(t => t.Equipment)
                 .WithMany(t => t.RecipeEquipments)
                 .HasForeignKey(d => d.EquipmentID);
-            this.HasOptional(t => t.Recipe)
+            this.HasRequired(t => t.Recipe)
                 .WithMany(t => t.RecipeEquipments)
                 .HasForeignKey(d => d.RecipeID);
 

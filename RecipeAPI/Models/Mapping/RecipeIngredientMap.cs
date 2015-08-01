@@ -23,10 +23,10 @@ namespace RecipeAPI.Models.Mapping
             this.Property(t => t.Units).HasColumnName("Units");
 
             // Relationships
-            this.HasOptional(t => t.Ingredient)
+            this.HasRequired(t => t.Ingredient)
                 .WithMany(t => t.RecipeIngredients)
                 .HasForeignKey(d => d.IngredientID);
-            this.HasOptional(t => t.Recipe)
+            this.HasRequired(t => t.Recipe)
                 .WithMany(t => t.RecipeIngredients)
                 .HasForeignKey(d => d.RecipeID);
 

@@ -23,7 +23,7 @@ namespace RecipeAPI.Models.Mapping
             this.Property(t => t.StepDescription).HasColumnName("StepDescription");
 
             // Relationships
-            this.HasOptional(t => t.Recipe)
+            this.HasRequired(t => t.Recipe)
                 .WithMany(t => t.Instructions)
                 .HasForeignKey(d => d.RecipeID);
 

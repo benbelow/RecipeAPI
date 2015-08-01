@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace RecipeAPI.Models
 {
@@ -20,8 +21,12 @@ namespace RecipeAPI.Models
         public int CookTime { get; set; }
         public int NumberOfServings { get; set; }
         public string Author { get; set; }
+
+        [Required]
         public virtual ICollection<Instruction> Instructions { get; set; }
+        [Required]
         public virtual ICollection<RecipeEquipment> RecipeEquipments { get; set; }
+        [Required]
         public virtual ICollection<RecipeIngredient> RecipeIngredients { get; set; }
     }
 }

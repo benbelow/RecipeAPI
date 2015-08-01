@@ -153,6 +153,14 @@
     <Compile Include="Migrations\201507311742542_AddUniqueConstraints.Designer.cs">
       <DependentUpon>201507311742542_AddUniqueConstraints.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201507312326315_Make_FK_relationships_of_recipe_required.cs" />
+    <Compile Include="Migrations\201507312326315_Make_FK_relationships_of_recipe_required.Designer.cs">
+      <DependentUpon>201507312326315_Make_FK_relationships_of_recipe_required.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201507312328138_Make_FK_relationships_of_instructions_required.cs" />
+    <Compile Include="Migrations\201507312328138_Make_FK_relationships_of_instructions_required.Designer.cs">
+      <DependentUpon>201507312328138_Make_FK_relationships_of_instructions_required.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\DetailedIngredient.cs" />
     <Compile Include="Models\DetailedEquipment.cs" />
@@ -212,6 +220,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201507311742542_AddUniqueConstraints.resx">
       <DependentUpon>201507311742542_AddUniqueConstraints.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201507312326315_Make_FK_relationships_of_recipe_required.resx">
+      <DependentUpon>201507312326315_Make_FK_relationships_of_recipe_required.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201507312328138_Make_FK_relationships_of_instructions_required.resx">
+      <DependentUpon>201507312328138_Make_FK_relationships_of_instructions_required.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
