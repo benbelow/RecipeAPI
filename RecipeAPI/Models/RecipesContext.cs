@@ -16,6 +16,11 @@ namespace RecipeAPI.Models
         {
         }
 
+        public RecipesContext(string nameOrConnectionString)
+            : base(nameOrConnectionString)
+        {
+        }
+
         public DbSet<DietaryRequirement> DietaryRequirements { get; set; }
         public DbSet<Equipment> Equipments { get; set; }
         public DbSet<IngredientDietaryRequirement> IngredientDietaryRequirements { get; set; }

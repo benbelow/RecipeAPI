@@ -17,7 +17,7 @@ namespace RecipeAPI.Repositories
 
     public abstract class Repository<T> : IRepository<T> where T : class
     {
-        private readonly DbContext context;
+        protected readonly DbContext context;
 
         protected Repository(DbContext context)
         {
