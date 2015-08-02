@@ -14,9 +14,9 @@ namespace RecipeAPI.Controllers
     {
         private IIngredientRepository IngredientRepo { get; set; }
 
-        public IngredientsController()
+        public IngredientsController(IIngredientRepository ingredientRepo)
         {
-            IngredientRepo = new IngredientRepository(new RecipesContext());
+            IngredientRepo = ingredientRepo;
         }
 
         // GET api/ingredients

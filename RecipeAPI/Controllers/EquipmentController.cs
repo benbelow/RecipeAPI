@@ -14,9 +14,9 @@ namespace RecipeAPI.Controllers
     {
         private IEquipmentRepository EquipmentRepo { get; set; }
 
-        public EquipmentController()
+        public EquipmentController(IEquipmentRepository equipmentRepo)
         {
-            EquipmentRepo = new EquipmentRepository(new RecipesContext());
+            EquipmentRepo = equipmentRepo;
         }
 
         // GET api/ingredients

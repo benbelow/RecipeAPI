@@ -20,14 +20,14 @@ namespace RecipeAPI.Controllers
         private IEquipmentRepository EquipmentRepo { get; set; }
         private IRecipeEquipmentRepository RecipeEquipmentRepo{ get; set; }
 
-        public RecipesController()
+        public RecipesController(IRecipeRepository recipeRepo, IRecipeIngredientRepository recipeIngredientRepo, IInstructionRepository instructionRepo, IIngredientRepository ingredientRepo, IEquipmentRepository equipmentRepo, IRecipeEquipmentRepository recipeEquipmentRepo)
         {
-            RecipeRepo = new RecipeRepository(new RecipesContext());
-            InstructionRepo = new InstructionRepository(new RecipesContext());
-            IngredientRepo = new IngredientRepository(new RecipesContext());
-            RecipeIngredientRepo = new RecipeIngredientRepository(new RecipesContext());
-            EquipmentRepo = new EquipmentRepository(new RecipesContext());
-            RecipeEquipmentRepo = new RecipeEquipmentRepository(new RecipesContext());
+            RecipeRepo = recipeRepo;
+            RecipeIngredientRepo = recipeIngredientRepo;
+            InstructionRepo = instructionRepo;
+            IngredientRepo = ingredientRepo;
+            EquipmentRepo = equipmentRepo;
+            RecipeEquipmentRepo = recipeEquipmentRepo;
         }
 
         // GET api/recipes
