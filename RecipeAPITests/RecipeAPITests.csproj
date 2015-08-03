@@ -93,8 +93,13 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Builders\BuilderAttribute.cs" />
+    <Compile Include="Builders\BuilderRegistry.cs" />
+    <Compile Include="Builders\Extensions.cs" />
+    <Compile Include="Builders\RecipeBuilder.cs" />
     <Compile Include="Controllers\EquipmentControllerTests.cs" />
     <Compile Include="Repositories\IngredientRepositoryTests.cs" />
+    <Compile Include="Builders\Builder.cs" />
     <Compile Include="TestHelpers\FakeItEasy\Dummy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\EquipmentRepositoryTests.cs" />
