@@ -15,8 +15,7 @@ namespace RecipeAPI.Repositories
 
         public Equipment GetEquipmentByName(string name)
         {
-            var test = GetAll();
-            return GetAll().SingleOrDefault(i => i.Name == name);
+            return Entities.FirstOrDefault(e => e.Name == name);
         }
     }
 }

@@ -33,11 +33,30 @@ namespace RecipeAPITests.Repositories
         public void CanGetData()
         {
             var equipment = new Equipment {Name = "test"};
-
             TestDb.Seed(equipment);
 
             var equipments = repo.GetAll();
             equipments.First().ShouldBeEquivalentTo(equipment);
+        }
+
+        [Test]
+        public void CanGetEquipmentByName()
+        {
+            var equipment = new Equipment { Name = "test" };
+            TestDb.Seed(equipment);
+
+            var result = repo.GetEquipmentByName("test");
+            result.Should().NotBeNull();
+        }
+
+        [Test]
+        public void GetEquipmentByNameIsCaseInsensitive()
+        {
+            var equipment = new Equipment { Name = "TEST" };
+            TestDb.Seed(equipment);
+
+            var result = repo.GetEquipmentByName("test");
+            result.Should().NotBeNull();
         }
     }
 }
