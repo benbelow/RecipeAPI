@@ -37,9 +37,9 @@ namespace RecipeAPI.Repositories
             return Entities
                 .Where(r => nameSearchTerms.All(substring => substring.Length == 0 || r.Name.Contains(substring)))
                 .Where(r => mealType.Length == 0 || r.MealType == mealType)
-                .Where(r => ingredientsAll.All(i =>r.RecipeIngredients.Any(ri => ri.Ingredient.Name.Equals(i, StringComparison.OrdinalIgnoreCase))))
-                .Where(r => ingredientsAny.Count == 0 ||totalIngredients.Any(i =>r.RecipeIngredients.Any(ri => ri.Ingredient.Name.Equals(i, StringComparison.OrdinalIgnoreCase))))
-                .Where(r => equipment.Count == 0 ||equipment.Any(e =>r.RecipeEquipments.Any(re => re.Equipment.Name.Equals(e, StringComparison.OrdinalIgnoreCase))))
+                .Where(r => ingredientsAll.All(i =>r.RecipeIngredients.Any(ri => ri.Ingredient.Name == i)))
+                .Where(r => ingredientsAny.Count == 0 || totalIngredients.Any(i =>r.RecipeIngredients.Any(ri => ri.Ingredient.Name == i)))
+                .Where(r => equipment.Count == 0 || equipment.Any(e =>r.RecipeEquipments.Any(re => re.Equipment.Name == e)))
                 .Where(r => maxTotalTime == null || r.PreparationTime + r.CookTime <= maxTotalTime)
                 .Where(r => minNumberOfServings == null || r.NumberOfServings >= minNumberOfServings)
                 .OrderBy(r => r.RecipeID)
