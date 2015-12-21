@@ -33,6 +33,17 @@ namespace RecipeAPITests.Repositories
             results.First().Name.Should().Be(recipe.Name);
         }
 
+        [Test]
+        public void FilterReturnsAllRecipesWhenNoFiltersSpecified()
+        {
+            const int numberOfRecipes = 10;
+            SeedMultipleRecipes(numberOfRecipes);
+
+            var results = recipeRepo.FilterRecipes();
+
+            results.Count().Should().Be(numberOfRecipes);
+        }
+
         [TestCase("Apple Pie", "", true)]                // Matches when search term empty
         [TestCase("Apple Pie", "Apple Pie", true)]       // Matches multiple words
         [TestCase("Apple Pie", "apple Pie", true)]       // Case insensitive
@@ -74,7 +85,7 @@ namespace RecipeAPITests.Repositories
         [TestCase(new []{"invalid"}, false)]               // Does not match if no ingredients in recipe
         [TestCase(new []{"one", "two", "invalid"}, false)] // Does not match if any ingredient not in recipe
         [TestCase(new string[]{}, true)]                   // Matches empty list 
-        public void MustMatchAllIngredientsIngredientsAllList(string[] ingredientsAll, bool expectedMatch)
+        public void FilterMustMatchAllIngredientsIngredientsAllList(string[] ingredientsAll, bool expectedMatch)
         {
             var ingredients = CreateIngredientList(new List<string> {"one", "two", "three"});
             var recipe = RecipeBuilder.New.WithIngredients(ingredients.ToArray()).Build();
@@ -93,7 +104,7 @@ namespace RecipeAPITests.Repositories
         [TestCase(new []{"invalid"}, false)]               // Does not match if no ingredients in recipe
         [TestCase(new []{"one", "four", "invalid"}, true)] // Matches if at least one ingredient in recipe
         [TestCase(new string[]{}, true)]                   // Matches empty list 
-        public void MustMatchAtLeastOneIngredientInIngredientsAny(string[] ingredientsAny, bool expectedMatch)
+        public void FilterMustMatchAtLeastOneIngredientInIngredientsAny(string[] ingredientsAny, bool expectedMatch)
         {
             var ingredients = CreateIngredientList(new List<string> {"one", "two", "three"});
             var recipe = RecipeBuilder.New.WithIngredients(ingredients.ToArray()).Build();
@@ -106,7 +117,7 @@ namespace RecipeAPITests.Repositories
         }
 
         [Test]
-        public void MatchesWhenNoIngredientInIngredientsAnyMatchButAllIngredientsInIngredientsAllMatch()
+        public void FilterMatchesWhenNoIngredientInIngredientsAnyMatchButAllIngredientsInIngredientsAllMatch()
         {
             var ingredients = CreateIngredientList(new List<string> { "one", "two", "three" });
             var recipe = RecipeBuilder.New.WithIngredients(ingredients.ToArray()).Build();
@@ -125,7 +136,7 @@ namespace RecipeAPITests.Repositories
         [TestCase(new[] { "invalid" }, false)]               // Does not match if no equipment in recipe
         [TestCase(new[] { "one", "four", "invalid" }, true)] // Matches if at least one equipment in recipe
         [TestCase(new string[] { }, true)]                   // Matches empty list 
-        public void MatchesAnyEquipmentInEquipmentList(string[] equipment, bool expectedMatch)
+        public void FilterMatchesAnyEquipmentInEquipmentList(string[] equipment, bool expectedMatch)
         {
             var recipeEquipment = CreateEquipmentList(new List<string> { "one", "two", "three" });
             var recipe = RecipeBuilder.New.WithEquipment(recipeEquipment.ToArray()).Build();
@@ -168,21 +179,106 @@ namespace RecipeAPITests.Repositories
         }
 
         [Test]
-        public void CanLimitNumberOfResults()
+        public void CanLimitNumberOfFilterResults()
         {
-            var recipes = new List<Recipe>();
-            for(var i=0; i< 20; i++)
-            {
-                recipes.Add(RecipeBuilder.New.Build());
-            }
-            TestDb.Seed(recipes.ToArray());
+            SeedMultipleRecipes(20);
 
             var results = recipeRepo.FilterRecipes(limit: 10);
 
             results.Count().Should().Be(10);
         }
 
-        private List<Ingredient> CreateIngredientList(IEnumerable<string> ingredientNames)
+        [TestCase(new[] { "one", "two" }, false)]                  // Does not match if not all ingredients in recipe
+        [TestCase(new[] { "ONE", "TWO", "Three" }, true)]          // Case insensitive
+        [TestCase(new[] { "one", "three", "two" }, true)]          // Matches all ingredients
+        [TestCase(new[] { "one", "three", "two", "four" }, true)]  // Not all given ingredients must be in recipe
+        [TestCase(new string[] { }, false)]                        // Does not match empty list 
+        public void FilterWithWhatIHaveOnlyMatchesRecipesWithAllIngredientsInOwnedIngredients(string[] ownedIngredients, bool expectedMatch)
+        {
+            var ingredients = CreateIngredientList(new List<string> { "one", "two", "three" });
+            var recipe = RecipeBuilder.New.WithIngredients(ingredients.ToArray()).Build();
+            TestDb.Seed(ingredients.ToArray());
+            TestDb.Seed(recipe);
+
+            var results = recipeRepo.FilterWithWhatIHave(ownedIngredients: ownedIngredients.ToList());
+
+            results.Any().Should().Be(expectedMatch);
+        }
+
+        [TestCase(new[] { "one", "two" }, false)]                  // Does not match if not all ingredients in recipe
+        [TestCase(new[] { "ONE", "TWO", "Three" }, true)]          // Case insensitive
+        [TestCase(new[] { "one", "three", "two" }, true)]          // Matches all ingredients
+        [TestCase(new[] { "one", "three", "two", "four" }, false)] // All given ingredients must be in recipe
+        [TestCase(new string[] { }, false)]                        // Does not match empty list 
+        public void FilterWithWhatIHaveOnlyMatchesRecipesWithAllRequiredIngredients(string[] requiredIngredients, bool expectedMatch)
+        {
+            var ingredients = CreateIngredientList(new List<string> { "one", "two", "three" });
+            var recipe = RecipeBuilder.New.WithIngredients(ingredients.ToArray()).Build();
+            TestDb.Seed(ingredients.ToArray());
+            TestDb.Seed(recipe);
+
+            var results = recipeRepo.FilterWithWhatIHave(requiredIngredients: requiredIngredients.ToList());
+
+            results.Any().Should().Be(expectedMatch);
+        }
+
+        [Test]
+        public void FilterWithWhatIHaveDoesNotMatchIfNoIngredientsGiven()
+        {
+            var ingredients = CreateIngredientList(new List<string> { "one", "two", "three" });
+            var recipe = RecipeBuilder.New.WithIngredients(ingredients.ToArray()).Build();
+            TestDb.Seed(ingredients.ToArray());
+            TestDb.Seed(recipe);
+
+            var results = recipeRepo.FilterWithWhatIHave();
+
+            results.Any().Should().BeFalse();
+        }
+
+        [Test]
+        public void FilterWithWhatIHaveMatchesWhenRequiredIngredientsEmptyIfAllIngredientsAreInOwnedIngredients()
+        {
+            var ingredients = CreateIngredientList(new List<string> { "one", "two", "three" });
+            var recipe = RecipeBuilder.New.WithIngredients(ingredients.ToArray()).Build();
+            TestDb.Seed(ingredients.ToArray());
+            TestDb.Seed(recipe);
+
+            var results = recipeRepo.FilterWithWhatIHave(ownedIngredients: ingredients.Select(i => i.Name).ToList());
+
+            results.Any().Should().BeTrue();
+        }
+
+        [Test]
+        public void FilterWithWhatIHaveMatchesWhenOwnedIngredientsEmptyIfAllIngredientsAreInRequiredIngredients()
+        {
+            var ingredients = CreateIngredientList(new List<string> { "one", "two", "three" });
+            var recipe = RecipeBuilder.New.WithIngredients(ingredients.ToArray()).Build();
+            TestDb.Seed(ingredients.ToArray());
+            TestDb.Seed(recipe);
+
+            var results = recipeRepo.FilterWithWhatIHave(requiredIngredients: ingredients.Select(i => i.Name).ToList());
+
+            results.Any().Should().BeTrue();
+        }
+
+        [TestCase(new[] { "one", "two" }, false)]                  // Does not match if not all equipment in recipe
+        [TestCase(new[] { "ONE", "TWO", "Three" }, true)]          // Case insensitive
+        [TestCase(new[] { "one", "three", "two" }, true)]          // Matches all equipment
+        [TestCase(new[] { "one", "three", "two", "four" }, true)]  // Not all given equipment must be used in recipe
+        [TestCase(new string[] { }, true)]                         // Matches empty list 
+        public void FilterWithWhatIHaveMatchesWhenAllEquipmentNeededInEquipmentList(string[] equipment, bool expectedMatch)
+        {
+            var recipeEquipment = CreateEquipmentList(new List<string> { "one", "two", "three" });
+            var recipe = RecipeBuilder.New.WithEquipment(recipeEquipment.ToArray()).Build();
+            TestDb.Seed(recipeEquipment.ToArray());
+            TestDb.Seed(recipe);
+
+            var results = recipeRepo.FilterWithWhatIHave(equipment: equipment.ToList());
+
+            results.Any().Should().Be(expectedMatch);
+        }
+
+        private static List<Ingredient> CreateIngredientList(IEnumerable<string> ingredientNames)
         {
             var ingredients = new List<Ingredient>();
             var id = 1;
@@ -194,7 +290,7 @@ namespace RecipeAPITests.Repositories
             return ingredients;
         }
 
-        private List<Equipment> CreateEquipmentList(List<string> equipmentNames)
+        private static List<Equipment> CreateEquipmentList(List<string> equipmentNames)
         {
             var equipment = new List<Equipment>();
             var id = 1;
@@ -204,6 +300,16 @@ namespace RecipeAPITests.Repositories
                 id++;
             }
             return equipment;
+        }
+
+        private static void SeedMultipleRecipes(int numberToSeed)
+        {
+            var recipes = new List<Recipe>();
+            for (var i = 0; i < numberToSeed; i++)
+            {
+                recipes.Add(RecipeBuilder.New.Build());
+            }
+            TestDb.Seed(recipes.ToArray());
         }
     }
 }

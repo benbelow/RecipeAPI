@@ -54,10 +54,6 @@ namespace RecipeAPI.Controllers
                                                int limit = 100,
                                                int offset = 0)
         {
-            ingredientsAll = ingredientsAll ?? new List<string>();
-            ingredientsAny = ingredientsAny ?? new List<string>();
-            equipment = equipment?? new List<string>();
-            
             return RecipeRepo.FilterRecipes(name, mealType, ingredientsAny, ingredientsAll, equipment, maxTotalTime,minNumberOfServings,limit,offset)
                              .Select(r => new DetailedRecipe(r));
         }
@@ -75,12 +71,9 @@ namespace RecipeAPI.Controllers
                                                             [FromUri] List<string> requiredIngredients = null,
                                                             [FromUri] List<string> equipment = null)
         {
-            var totalIngredients = ownedIngredients.Concat(requiredIngredients).ToList();
+            return RecipeRepo.FilterWithWhatIHave(ownedIngredients, requiredIngredients, equipment)
+                             .Select(r => new DetailedRecipe(r));
 
-            return RecipeRepo.GetAll().Select(r => new DetailedRecipe(r))
-                                      .Where(r => r.Ingredients.All(ri => totalIngredients.Contains(ri.Name, StringComparison.OrdinalIgnoreCase)))
-                                      .Where(r => requiredIngredients.All(i => r.Ingredients.Any(ri => i.Equals(ri.Name, StringComparison.OrdinalIgnoreCase))))
-                                      .Where(r => equipment.Count == 0 || r.Equipment.All(re => equipment.Any(e => e.Equals(re.Name, StringComparison.OrdinalIgnoreCase))));
         }
 
         public HttpResponseMessage PostRecipe(string name,

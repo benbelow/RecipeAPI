@@ -17,6 +17,10 @@ namespace RecipeAPI.Repositories
                             int? minNumberOfServings = null,
                             int limit = 100,
                             int offset = 0);
+
+        IEnumerable<Recipe> FilterWithWhatIHave(List<string> ownedIngredients = null,
+                                                List<string> requiredIngredients = null,
+                                                List<string> equipment = null);
     }
 
     public class RecipeRepository : Repository<Recipe>, IRecipeRepository
@@ -45,6 +49,20 @@ namespace RecipeAPI.Repositories
                 .OrderBy(r => r.RecipeID)
                 .Skip(offset)
                 .Take(limit);
+        }
+
+        public IEnumerable<Recipe> FilterWithWhatIHave(List<string> ownedIngredients, List<string> requiredIngredients, List<string> equipment)
+        {
+            ownedIngredients = ownedIngredients ?? new List<string>();
+            requiredIngredients = requiredIngredients ?? new List<string>();
+            equipment = equipment ?? new List<string>();
+            var totalIngredients = ownedIngredients.Concat(requiredIngredients).ToList();
+
+            return Entities
+                .Where(r => r.RecipeIngredients.All(ri => totalIngredients.Contains(ri.Ingredient.Name)))
+                .Where(r => requiredIngredients.All(i => r.RecipeIngredients.Any(ri => i == ri.Ingredient.Name)))
+                .Where(r => equipment.Count == 0 || r.RecipeEquipments.All(re => equipment.Any(e => e == re.Equipment.Name)));
+        
         }
     }
 }
