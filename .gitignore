@@ -10,3 +10,6 @@ obj/
 
 # NuGet Packages Directory
 packages/
+
+#Release config 
+RecipeAPI/Web.Release.config
