@@ -13,7 +13,7 @@ namespace RecipeAPI.Models.Mapping
             // Properties
             this.Property(t => t.StepDescription)
                 .IsRequired()
-                .HasMaxLength(200);
+                .HasMaxLength(2000);
 
             // Table & Column Mappings
             this.ToTable("Instructions");

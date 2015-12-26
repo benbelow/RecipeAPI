@@ -185,6 +185,10 @@
     <Compile Include="Migrations\201507312328138_Make_FK_relationships_of_instructions_required.Designer.cs">
       <DependentUpon>201507312328138_Make_FK_relationships_of_instructions_required.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201512261820014_Increase-max-instruction-length.cs" />
+    <Compile Include="Migrations\201512261820014_Increase-max-instruction-length.Designer.cs">
+      <DependentUpon>201512261820014_Increase-max-instruction-length.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\DetailedIngredient.cs" />
     <Compile Include="Models\DetailedEquipment.cs" />
@@ -253,6 +257,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201507312328138_Make_FK_relationships_of_instructions_required.resx">
       <DependentUpon>201507312328138_Make_FK_relationships_of_instructions_required.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201512261820014_Increase-max-instruction-length.resx">
+      <DependentUpon>201512261820014_Increase-max-instruction-length.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
