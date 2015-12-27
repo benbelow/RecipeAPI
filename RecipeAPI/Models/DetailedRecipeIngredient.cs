@@ -14,10 +14,12 @@ namespace RecipeAPI.Models
             Name = recipeIngredient.Ingredient.Name;
             Amount = recipeIngredient.Amount;
             Units = recipeIngredient.Units;
+            Description = recipeIngredient.Description;
         }
 
         public String Name { get; set; }
         public int Amount { get; set; }
         public String Units { get; set; }
+        public String Description { get; set; }
     }
 }

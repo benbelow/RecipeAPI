@@ -21,6 +21,7 @@ namespace RecipeAPI.Models.Mapping
             this.Property(t => t.IngredientID).HasColumnName("IngredientID");
             this.Property(t => t.Amount).HasColumnName("Amount");
             this.Property(t => t.Units).HasColumnName("Units");
+            this.Property(t => t.Description).HasColumnName("Description").IsOptional();
 
             // Relationships
             this.HasRequired(t => t.Ingredient)

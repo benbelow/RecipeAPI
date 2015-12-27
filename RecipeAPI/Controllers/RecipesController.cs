@@ -134,7 +134,8 @@ namespace RecipeAPI.Controllers
                     RecipeID = recipe.RecipeID,
                     IngredientID = ingredient.IngredientID,
                     Amount = detailedRecipeIngredient.Amount,
-                    Units = detailedRecipeIngredient.Units
+                    Units = detailedRecipeIngredient.Units,
+                    Description = detailedRecipeIngredient.Description
                 };
 
                 RecipeIngredientRepo.Add(recipeIngredient);

@@ -16,6 +16,7 @@ namespace RecipeAPI.Models
 
         public int Amount { get; set; }
         public string Units { get; set; }
+        public string Description { get; set; }
         public virtual Ingredient Ingredient { get; set; }
         public virtual Recipe Recipe { get; set; }
     }

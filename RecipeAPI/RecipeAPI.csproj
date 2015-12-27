@@ -189,6 +189,10 @@
     <Compile Include="Migrations\201512261820014_Increase-max-instruction-length.Designer.cs">
       <DependentUpon>201512261820014_Increase-max-instruction-length.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201512271833312_Add-description-to-recipe-ingredients.cs" />
+    <Compile Include="Migrations\201512271833312_Add-description-to-recipe-ingredients.Designer.cs">
+      <DependentUpon>201512271833312_Add-description-to-recipe-ingredients.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\DetailedIngredient.cs" />
     <Compile Include="Models\DetailedEquipment.cs" />
@@ -260,6 +264,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201512261820014_Increase-max-instruction-length.resx">
       <DependentUpon>201512261820014_Increase-max-instruction-length.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201512271833312_Add-description-to-recipe-ingredients.resx">
+      <DependentUpon>201512271833312_Add-description-to-recipe-ingredients.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
