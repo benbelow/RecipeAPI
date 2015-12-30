@@ -19,10 +19,12 @@ namespace RecipeAPI.Models
             CookTime = recipe.CookTime;
             NumberOfServings = recipe.NumberOfServings;
             Author = recipe.Author;
+            ImageSource = recipe.ImageSource;
 
             Instructions = recipe.Instructions.Select(i => new DetailedInstruction(i));
             Ingredients = recipe.RecipeIngredients.Select(i => new DetailedRecipeIngredient(i));
             Equipment = recipe.RecipeEquipments.Select(e => new DetailedEquipment(e));
+
         }
 
         public string Name;
@@ -32,6 +34,7 @@ namespace RecipeAPI.Models
         public int CookTime;
         public int NumberOfServings;
         public string Author;
+        public string ImageSource;
 
         public IEnumerable<DetailedInstruction> Instructions { get; set; }
 

@@ -35,6 +35,7 @@ namespace RecipeAPI.Models.Mapping
             this.Property(t => t.CookTime).HasColumnName("CookTime");
             this.Property(t => t.NumberOfServings).HasColumnName("NumberOfServings");
             this.Property(t => t.Author).HasColumnName("Author");
+            this.Property(t => t.ImageSource).IsOptional();
         }
     }
 }

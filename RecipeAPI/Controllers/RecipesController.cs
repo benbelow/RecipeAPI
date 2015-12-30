@@ -83,7 +83,8 @@ namespace RecipeAPI.Controllers
                                               int cookTime,
                                               int numberOfServings,
                                               string author,
-                                              [FromBody] RecipePostData postData)
+                                              [FromBody] RecipePostData postData,
+                                              string imageSource = "")
         {
             var instructions = postData.Instructions;
             var ingredients = postData.Ingredients;
@@ -97,7 +98,8 @@ namespace RecipeAPI.Controllers
                 PreparationTime = prepTime,
                 CookTime = cookTime,
                 NumberOfServings = numberOfServings,
-                Author = author
+                Author = author,
+                ImageSource = imageSource
             };
 
             RecipeRepo.Add(recipe);

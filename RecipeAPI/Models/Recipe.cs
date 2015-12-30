@@ -21,6 +21,7 @@ namespace RecipeAPI.Models
         public int CookTime { get; set; }
         public int NumberOfServings { get; set; }
         public string Author { get; set; }
+        public string ImageSource { get; set; }
 
         [Required]
         public virtual ICollection<Instruction> Instructions { get; set; }
