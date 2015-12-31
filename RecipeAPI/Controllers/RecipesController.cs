@@ -171,7 +171,7 @@ namespace RecipeAPI.Controllers
             RecipeIngredientRepo.SaveContext();
             RecipeEquipmentRepo.SaveContext();
 
-            var response = Request.CreateResponse(HttpStatusCode.Created);
+            var response = Request.CreateResponse(HttpStatusCode.Created, new DetailedRecipe(recipe));
             return response;
         }
 
