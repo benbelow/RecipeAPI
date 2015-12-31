@@ -84,7 +84,7 @@ namespace RecipeAPI.Controllers
                                               int numberOfServings,
                                               string author,
                                               [FromBody] RecipePostData postData,
-                                              string imageSource = "")
+                                              string imageSource = null)
         {
             var instructions = postData.Instructions;
             var ingredients = postData.Ingredients;
