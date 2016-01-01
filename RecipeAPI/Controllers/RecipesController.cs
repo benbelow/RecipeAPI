@@ -66,7 +66,7 @@ namespace RecipeAPI.Controllers
         /// <param name="equipment">Equipment you have. Leave blank to not filter by equipment</param>
         /// <returns></returns>
         [HttpGet]
-        [ActionName("With")]
+        [Route("api/Recipes/With")]
         public IEnumerable<DetailedRecipe> WithWhatIHave([FromUri] List<string> ownedIngredients = null,
                                                             [FromUri] List<string> requiredIngredients = null,
                                                             [FromUri] List<string> equipment = null)
@@ -76,6 +76,7 @@ namespace RecipeAPI.Controllers
 
         }
 
+        [HttpPost]
         public HttpResponseMessage PostRecipe(string name,
                                               string description,
                                               string mealType,
