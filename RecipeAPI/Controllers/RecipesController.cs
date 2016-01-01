@@ -8,6 +8,7 @@ using System.Data.Entity;
 using RecipeAPI.Repositories;
 using RecipeAPI.Models;
 using RecipeAPI.Helpers.Extensions;
+using JsonPatch;
 
 namespace RecipeAPI.Controllers
 {
@@ -184,6 +185,20 @@ namespace RecipeAPI.Controllers
             return response;
         }
 
+        [HttpPatch]
+        public HttpResponseMessage PatchRecipe(int id, [FromBody] JsonPatchDocument<Recipe> recipePatchDocument)
+        {
+            var recipe = RecipeRepo.GetRecipeById(id);
+            if (recipe == null)
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound);
+            }
+
+            recipePatchDocument.ApplyUpdatesTo(recipe);
+            RecipeRepo.SaveContext();
+
+            return new HttpResponseMessage();
+        } 
 
     }
 }
