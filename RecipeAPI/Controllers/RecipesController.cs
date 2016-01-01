@@ -58,9 +58,19 @@ namespace RecipeAPI.Controllers
                              .Select(r => new DetailedRecipe(r));
         }
 
-        public DetailedRecipe GetRecipeByID(int id)
+        public HttpResponseMessage GetRecipeByID(int id)
         {
-            return new DetailedRecipe(RecipeRepo.GetRecipeById(id));
+            HttpResponseMessage response;
+            var recipe = RecipeRepo.GetRecipeById(id);
+            if (recipe == null)
+            {
+                response = Request.CreateResponse(HttpStatusCode.NotFound);
+            }
+            else
+            {
+                response = Request.CreateResponse(HttpStatusCode.OK, new DetailedRecipe(recipe));
+            }
+            return response;
         }
 
         /// <summary>

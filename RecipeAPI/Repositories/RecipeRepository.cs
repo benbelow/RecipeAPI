@@ -69,7 +69,7 @@ namespace RecipeAPI.Repositories
 
         public Recipe GetRecipeById(int id)
         {
-            return Entities.Where(r => r.RecipeID == id).Single();
+            return Entities.Where(r => r.RecipeID == id).SingleOrDefault();
         }
     }
 }
