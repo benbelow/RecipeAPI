@@ -92,15 +92,8 @@ namespace RecipeAPI.Controllers
         }
 
         [HttpPost]
-        public HttpResponseMessage PostRecipe(string name,
-                                              string description,
-                                              string mealType,
-                                              int prepTime,
-                                              int cookTime,
-                                              int numberOfServings,
-                                              string author,
-                                              [FromBody] RecipePostData postData,
-                                              string imageSource = null)
+        [Route("api/Recipes")]
+        public HttpResponseMessage PostRecipe([FromBody] RecipePostData postData)
         {
             var instructions = postData.Instructions;
             var ingredients = postData.Ingredients;
@@ -108,14 +101,14 @@ namespace RecipeAPI.Controllers
 
             var recipe = new Recipe
             {
-                Name = name,
-                Description = description,
-                MealType = mealType,
-                PreparationTime = prepTime,
-                CookTime = cookTime,
-                NumberOfServings = numberOfServings,
-                Author = author,
-                ImageSource = imageSource
+                Name = postData.name,
+                Description = postData.description,
+                MealType = postData.mealType,
+                PreparationTime = postData.prepTime,
+                CookTime = postData.cookTime,
+                NumberOfServings = postData.numberOfServings,
+                Author = postData.author,
+                ImageSource = postData.imageSource
             };
 
             RecipeRepo.Add(recipe);
