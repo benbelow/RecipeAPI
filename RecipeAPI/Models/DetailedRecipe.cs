@@ -12,6 +12,7 @@ namespace RecipeAPI.Models
     {
 
         public DetailedRecipe(Recipe recipe) {
+            Id = recipe.RecipeID;
             Name = recipe.Name;
             Description = recipe.Description; ;
             MealType = recipe.MealType;
@@ -27,6 +28,7 @@ namespace RecipeAPI.Models
 
         }
 
+        public int Id;
         public string Name;
         public string Description;
         public string MealType;
