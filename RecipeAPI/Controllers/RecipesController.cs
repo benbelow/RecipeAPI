@@ -197,7 +197,7 @@ namespace RecipeAPI.Controllers
             recipePatchDocument.ApplyUpdatesTo(recipe);
             RecipeRepo.SaveContext();
 
-            return new HttpResponseMessage();
+            return Request.CreateResponse(HttpStatusCode.OK, new DetailedRecipe(recipe));
         } 
 
     }
