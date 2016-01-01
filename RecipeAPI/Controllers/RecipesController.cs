@@ -58,6 +58,11 @@ namespace RecipeAPI.Controllers
                              .Select(r => new DetailedRecipe(r));
         }
 
+        public DetailedRecipe GetRecipeByID(int id)
+        {
+            return new DetailedRecipe(RecipeRepo.GetRecipeById(id));
+        }
+
         /// <summary>
         /// Searches recipes that only contain ingredients and recipes you specify
         /// </summary>

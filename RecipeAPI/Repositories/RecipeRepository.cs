@@ -21,6 +21,8 @@ namespace RecipeAPI.Repositories
         IEnumerable<Recipe> FilterWithWhatIHave(List<string> ownedIngredients = null,
                                                 List<string> requiredIngredients = null,
                                                 List<string> equipment = null);
+
+        Recipe GetRecipeById(int id);
     }
 
     public class RecipeRepository : Repository<Recipe>, IRecipeRepository
@@ -63,6 +65,11 @@ namespace RecipeAPI.Repositories
                 .Where(r => requiredIngredients.All(i => r.RecipeIngredients.Any(ri => i == ri.Ingredient.Name)))
                 .Where(r => equipment.Count == 0 || r.RecipeEquipments.All(re => equipment.Any(e => e == re.Equipment.Name)));
         
+        }
+
+        public Recipe GetRecipeById(int id)
+        {
+            return Entities.Where(r => r.RecipeID == id).Single();
         }
     }
 }
