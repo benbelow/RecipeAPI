@@ -198,7 +198,20 @@ namespace RecipeAPI.Controllers
             RecipeRepo.SaveContext();
 
             return Request.CreateResponse(HttpStatusCode.OK, new DetailedRecipe(recipe));
-        } 
+        }
 
+
+        public HttpResponseMessage DeleteRecipe(int id)
+        {
+            var recipe = RecipeRepo.GetRecipeById(id);
+            if (recipe == null)
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound);
+            }
+
+            RecipeRepo.DeleteRecipe(recipe);
+
+            return Request.CreateResponse(HttpStatusCode.NoContent);
+        }
     }
 }

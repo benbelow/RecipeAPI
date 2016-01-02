@@ -23,6 +23,8 @@ namespace RecipeAPI.Repositories
                                                 List<string> equipment = null);
 
         Recipe GetRecipeById(int id);
+        void DeleteRecipe(Recipe recipe);
+        void DeleteRecipe(int id);
     }
 
     public class RecipeRepository : Repository<Recipe>, IRecipeRepository
@@ -70,6 +72,18 @@ namespace RecipeAPI.Repositories
         public Recipe GetRecipeById(int id)
         {
             return Entities.Where(r => r.RecipeID == id).SingleOrDefault();
+        }
+
+        public void DeleteRecipe(Recipe recipe)
+        {
+            Entities.Remove(recipe);
+            SaveContext();
+        }
+
+        public void DeleteRecipe(int id)
+        {
+            Recipe recipe = new Recipe() { RecipeID = id };
+            DeleteRecipe(recipe);
         }
     }
 }
