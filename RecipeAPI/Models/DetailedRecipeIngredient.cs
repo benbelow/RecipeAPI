@@ -18,7 +18,7 @@ namespace RecipeAPI.Models
         }
 
         public String Name { get; set; }
-        public int Amount { get; set; }
+        public double Amount { get; set; }
         public String Units { get; set; }
         public String Description { get; set; }
     }

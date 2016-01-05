@@ -14,7 +14,7 @@ namespace RecipeAPI.Models
         [Required]
         public Nullable<int> IngredientID { get; set; }
 
-        public int Amount { get; set; }
+        public double Amount { get; set; }
         public string Units { get; set; }
         public string Description { get; set; }
         public virtual Ingredient Ingredient { get; set; }

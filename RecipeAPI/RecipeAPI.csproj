@@ -202,6 +202,10 @@
     <Compile Include="Migrations\201512301712380_Add-image-source-to-recipe.Designer.cs">
       <DependentUpon>201512301712380_Add-image-source-to-recipe.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201601052024142_MakeIngredientAmountDouble.cs" />
+    <Compile Include="Migrations\201601052024142_MakeIngredientAmountDouble.Designer.cs">
+      <DependentUpon>201601052024142_MakeIngredientAmountDouble.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\DetailedIngredient.cs" />
     <Compile Include="Models\DetailedEquipment.cs" />
@@ -279,6 +283,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201512301712380_Add-image-source-to-recipe.resx">
       <DependentUpon>201512301712380_Add-image-source-to-recipe.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201601052024142_MakeIngredientAmountDouble.resx">
+      <DependentUpon>201601052024142_MakeIngredientAmountDouble.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
