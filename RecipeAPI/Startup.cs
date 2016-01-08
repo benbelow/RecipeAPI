@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.Owin.Security.Cookies;
+using Owin;
+using System.Web.Http;
+using System.Web.Mvc;
+using System.Web.Routing;
 
 namespace RecipeAPI
 {
-    using System.Web.Http;
-    using System.Web.Mvc;
-    using System.Web.Routing;
-    using Owin;
+    using RecipeAPI.App_Start;
 
     public class Startup
     {
@@ -16,7 +15,8 @@ namespace RecipeAPI
         {
             HttpConfiguration config = new HttpConfiguration();
 
-//            FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
+            SecurityConfig.Configure(app);
+            FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             WebApiConfig.Register(config);

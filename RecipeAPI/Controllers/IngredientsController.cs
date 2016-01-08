@@ -10,6 +10,7 @@ using RecipeAPI.Models;
 
 namespace RecipeAPI.Controllers
 {
+    [Authorize]
     public class IngredientsController : ApiController
     {
         private IIngredientRepository IngredientRepo { get; set; }
