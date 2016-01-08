@@ -27,7 +27,24 @@ namespace RecipeAPI.App_Start
             var options = new GoogleOAuth2AuthenticationOptions()
             {
                 ClientId = "238308584955-f5megnjst1pq4a6s0n6iq4o2dm2biv47.apps.googleusercontent.com",
-                ClientSecret = "cYYJYwiKqufCIp5IVwfLI9GI"
+                ClientSecret = "cYYJYwiKqufCIp5IVwfLI9GI",
+				Provider = new GoogleOAuth2AuthenticationProvider()
+				           {
+				               OnAuthenticated = async context =>
+				               {
+                                   // Retrieve the OAuth access token to store for subsequent API calls
+                                   string accessToken = context.AccessToken;
+
+                                   // Retrieve the name of the user in Google
+                                   string googleName = context.Name;
+
+                                   // Retrieve the user's email address
+                                   string googleEmailAddress = context.Email;
+
+                                   // You can even retrieve the full JSON-serialized user
+                                   var serializedUser = context.User;
+                               }
+				           }
             };
 
             app.UseGoogleAuthentication(options);
