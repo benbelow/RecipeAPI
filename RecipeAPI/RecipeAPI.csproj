@@ -120,6 +120,9 @@
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="RestSharp">
+      <HintPath>..\packages\RestSharp.105.2.3\lib\net45\RestSharp.dll</HintPath>
+    </Reference>
     <Reference Include="SwaggerAPIDocumentation">
       <HintPath>..\packages\SwaggerAPIDocumentation.Mvc4.1.1.5\lib\net40\SwaggerAPIDocumentation.dll</HintPath>
     </Reference>
@@ -219,9 +222,15 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Authentication\AccessTokenMessageHandler.cs" />
     <Compile Include="Authentication\ChallengeResult.cs" />
+    <Compile Include="Authentication\GoogleVerificationResponse.cs" />
     <Compile Include="Authentication\LoginController.cs" />
+    <Compile Include="Authentication\SignInResponse.cs" />
     <Compile Include="Authentication\UserIdentity.cs" />
     <Compile Include="Authentication\UserPrincipal.cs" />
+    <Compile Include="Controllers\AuthenticationController.cs" />
+    <Compile Include="Controllers\JavaScriptSerializer.cs" />
+    <Compile Include="Helpers\TokenGenerator.cs" />
+    <Compile Include="Helpers\UnixTimeConverter.cs" />
     <Compile Include="Migrations\201601101949522_AddUserTable.cs" />
     <Compile Include="Migrations\201601101949522_AddUserTable.Designer.cs">
       <DependentUpon>201601101949522_AddUserTable.cs</DependentUpon>

@@ -40,7 +40,16 @@ namespace RecipeAPI.Authentication
                 }
             }
 
-            SetPrincipalFromAuthorizationHeader(authorization);
+            if (authorization != null) { 
+
+                if (authorization.StartsWith("Bearer ", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    authorization = authorization.Substring("Bearer ".Length);
+                }
+
+                SetPrincipalFromAuthorizationHeader(authorization);
+
+            }
 
  	        return await base.SendAsync(request, cancellationToken);
         }
@@ -55,7 +64,7 @@ namespace RecipeAPI.Authentication
             var user = userRepo.GetUserByAccessToken(authorization);
             UserIdentity identity = null;
 
-            if (user != null)
+            if (user != null && user.AccessTokenExpiry > DateTime.UtcNow)
             {
                 identity = new UserIdentity(user);
             }

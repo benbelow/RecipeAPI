@@ -7,6 +7,7 @@ namespace RecipeAPI.Repositories
     public interface IUserRepository : IRepository<User>
     {
         User GetUserById(int userId);
+        User GetUserByEmail(string email);
         User GetUserByAccessToken(string accessToken);
         User GetUserByRefreshToken(string refreshToken);
     }
@@ -18,6 +19,11 @@ namespace RecipeAPI.Repositories
         public User GetUserById(int userId)
         {
             return Entities.Where(u => u.UserID == userId).SingleOrDefault();
+        }
+
+        public User GetUserByEmail(string email)
+        {
+            return Entities.Where(u => u.Email == email).SingleOrDefault();
         }
 
         public User GetUserByAccessToken(string accessToken)
