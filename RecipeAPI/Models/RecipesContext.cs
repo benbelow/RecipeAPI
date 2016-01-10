@@ -29,6 +29,7 @@ namespace RecipeAPI.Models
         public DbSet<RecipeEquipment> RecipeEquipments { get; set; }
         public DbSet<RecipeIngredient> RecipeIngredients { get; set; }
         public DbSet<Recipe> Recipes { get; set; }
+        public DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -40,6 +41,7 @@ namespace RecipeAPI.Models
             modelBuilder.Configurations.Add(new RecipeEquipmentMap());
             modelBuilder.Configurations.Add(new RecipeIngredientMap());
             modelBuilder.Configurations.Add(new RecipeMap());
+            modelBuilder.Configurations.Add(new UserMap());
         }
     }
 }

@@ -217,8 +217,18 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Authentication\AccessTokenMessageHandler.cs" />
     <Compile Include="Authentication\ChallengeResult.cs" />
     <Compile Include="Authentication\LoginController.cs" />
+    <Compile Include="Authentication\UserIdentity.cs" />
+    <Compile Include="Authentication\UserPrincipal.cs" />
+    <Compile Include="Migrations\201601101949522_AddUserTable.cs" />
+    <Compile Include="Migrations\201601101949522_AddUserTable.Designer.cs">
+      <DependentUpon>201601101949522_AddUserTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Mapping\UserMap.cs" />
+    <Compile Include="Models\User.cs" />
+    <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Controllers\EquipmentController.cs" />
     <Compile Include="Controllers\IngredientsController.cs" />
@@ -334,6 +344,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201601052024142_MakeIngredientAmountDouble.resx">
       <DependentUpon>201601052024142_MakeIngredientAmountDouble.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201601101949522_AddUserTable.resx">
+      <DependentUpon>201601101949522_AddUserTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
