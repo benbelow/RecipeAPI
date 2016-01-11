@@ -1,4 +1,5 @@
-﻿using RecipeAPI.Models;
+﻿using RecipeAPI.Helpers;
+using RecipeAPI.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,13 +11,13 @@ namespace RecipeAPI.Authentication
     {
         public string Email { get; set; }
         public string AccessToken { get; set; }
-        public DateTime? AccessTokenExpiry { get; set; }
+        public double AccessTokenExpiry { get; set; }
 
         public AccessTokenResponse(User user)
         {
             Email = user.Email;
             AccessToken = user.AccessToken;
-            AccessTokenExpiry = user.AccessTokenExpiry;
+            AccessTokenExpiry = UnixTimeConverter.ToUnixTime((DateTime) user.AccessTokenExpiry);
         }
     }
 }

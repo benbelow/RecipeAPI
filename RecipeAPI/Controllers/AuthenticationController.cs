@@ -71,7 +71,7 @@ namespace RecipeAPI.Controllers
         [Route("api/auth/refresh")]
         public HttpResponseMessage Refresh(Dictionary<string, object> refreshProperties)
         {
-            var refresh_token = refreshProperties.RequiredStringProperty("refresh_token");
+            var refresh_token = refreshProperties.RequiredStringProperty("RefreshToken");
             var user = UserRepo.GetUserByRefreshToken(refresh_token);
             if (user == null)
             {
