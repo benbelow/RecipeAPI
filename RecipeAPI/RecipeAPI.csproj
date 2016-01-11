@@ -224,11 +224,13 @@
     <Compile Include="Authentication\ChallengeResult.cs" />
     <Compile Include="Authentication\GoogleVerificationResponse.cs" />
     <Compile Include="Authentication\LoginController.cs" />
+    <Compile Include="Authentication\AccessTokenResponse.cs" />
     <Compile Include="Authentication\SignInResponse.cs" />
     <Compile Include="Authentication\UserIdentity.cs" />
     <Compile Include="Authentication\UserPrincipal.cs" />
     <Compile Include="Controllers\AuthenticationController.cs" />
     <Compile Include="Controllers\JavaScriptSerializer.cs" />
+    <Compile Include="Helpers\ControllerHelpers.cs" />
     <Compile Include="Helpers\TokenGenerator.cs" />
     <Compile Include="Helpers\UnixTimeConverter.cs" />
     <Compile Include="Migrations\201601101949522_AddUserTable.cs" />

@@ -28,7 +28,7 @@ namespace RecipeAPI.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        [Route("api/googleLogin")]
+        [Route("api/auth/googleLogin")]
         public HttpResponseMessage GoogleTokenSignIn(string googleIdToken)
         {
             var baseRequestUrl = "/oauth2/v3/tokeninfo?id_token=";
@@ -66,7 +66,26 @@ namespace RecipeAPI.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, new SignInResponse(user));
         }
 
-        public bool GoogleTokenValid(GoogleVerificationResponse googleResponse)
+        [HttpPost]
+        [AllowAnonymous]
+        [Route("api/auth/refresh")]
+        public HttpResponseMessage Refresh(Dictionary<string, object> refreshProperties)
+        {
+            var refresh_token = refreshProperties.RequiredStringProperty("refresh_token");
+            var user = UserRepo.GetUserByRefreshToken(refresh_token);
+            if (user == null)
+            {
+                return Request.CreateResponse(HttpStatusCode.Unauthorized);
+            }
+
+            user.AccessToken = TokenGenerator.GenerateSecureRandomToken();
+            user.AccessTokenExpiry = DateTime.UtcNow.AddDays(1);
+            UserRepo.SaveContext();
+
+            return Request.CreateResponse(HttpStatusCode.OK, new AccessTokenResponse(user));
+        }
+
+        private bool GoogleTokenValid(GoogleVerificationResponse googleResponse)
         {
             return googleResponse.iss == "https://accounts.google.com"
                 && UnixTimeConverter.FromUnixTime(googleResponse.exp) > DateTime.UtcNow
