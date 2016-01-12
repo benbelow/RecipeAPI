@@ -65,7 +65,7 @@ namespace RecipeAPI.Controllers
 
             var ingredientIds = ingredientNames.Select(n => IngredientRepository.GetOrCreateIngredient(n).IngredientID);
 
-            var newSCIs = ingredientIds.Select(i => new StoreCupboardIngredient { IngredientID = i, UserID = userId }).ToList()
+            var newSCIs = ingredientIds.Select(i => new StoreCupboardIngredient { IngredientID = i, UserID = userId }).ToList();
             var oldSCIs = user.StoreCupboardIngredients;
 
             foreach (var sci in oldSCIs.Except(newSCIs, new StoreCupboardIngredientComparer()).ToList())
