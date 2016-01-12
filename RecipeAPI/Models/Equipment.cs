@@ -18,5 +18,6 @@ namespace RecipeAPI.Models
         public string Name { get; set; }
 
         public virtual ICollection<RecipeEquipment> RecipeEquipments { get; set; }
+        public virtual ICollection<StoreCupboardEquipment> StoreCupboardEquipments { get; set; }
     }
 }

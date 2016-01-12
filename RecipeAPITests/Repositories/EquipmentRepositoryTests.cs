@@ -36,7 +36,7 @@ namespace RecipeAPITests.Repositories
             TestDb.Seed(equipment);
 
             var equipments = repo.GetAll();
-            equipments.First().ShouldBeEquivalentTo(equipment);
+            equipments.First().Name.Should().Be(equipment.Name);
         }
 
         [Test]

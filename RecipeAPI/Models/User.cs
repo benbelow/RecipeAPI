@@ -21,5 +21,6 @@ namespace RecipeAPI.Models
         public string RefreshToken { get; set; }
 
         public virtual ICollection<StoreCupboardIngredient> StoreCupboardIngredients { get; set; }
+        public virtual ICollection<StoreCupboardEquipment> StoreCupboardEquipments { get; set; }
     }
 }

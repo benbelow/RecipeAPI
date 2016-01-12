@@ -230,6 +230,7 @@
     <Compile Include="Authentication\UserPrincipal.cs" />
     <Compile Include="Controllers\AuthenticationController.cs" />
     <Compile Include="Controllers\StoreCupboardController.cs" />
+    <Compile Include="Helpers\Comparers\StoreCupboardEquipmentComparer.cs" />
     <Compile Include="Helpers\Comparers\StoreCupboardIngredientComparer.cs" />
     <Compile Include="Helpers\ControllerHelpers.cs" />
     <Compile Include="Helpers\TokenGenerator.cs" />
@@ -242,11 +243,18 @@
     <Compile Include="Migrations\201601112100201_AddStoreCupboardIngredientTable.Designer.cs">
       <DependentUpon>201601112100201_AddStoreCupboardIngredientTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201601122136220_AddStoreCupboardEquipmentTable.cs" />
+    <Compile Include="Migrations\201601122136220_AddStoreCupboardEquipmentTable.Designer.cs">
+      <DependentUpon>201601122136220_AddStoreCupboardEquipmentTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\DetailedStoreCupboard.cs" />
+    <Compile Include="Models\Mapping\StoreCupboardEquipmentMap.cs" />
     <Compile Include="Models\Mapping\StoreCupboardIngredientMap.cs" />
     <Compile Include="Models\Mapping\UserMap.cs" />
+    <Compile Include="Models\StoreCupboardEquipment.cs" />
     <Compile Include="Models\StoreCupboardIngredient.cs" />
     <Compile Include="Models\User.cs" />
+    <Compile Include="Repositories\StoreCupboardEquipmentRepository.cs" />
     <Compile Include="Repositories\StoreCupboardIngredientRepository.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="Startup.cs" />
@@ -370,6 +378,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201601112100201_AddStoreCupboardIngredientTable.resx">
       <DependentUpon>201601112100201_AddStoreCupboardIngredientTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201601122136220_AddStoreCupboardEquipmentTable.resx">
+      <DependentUpon>201601122136220_AddStoreCupboardEquipmentTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
