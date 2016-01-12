@@ -16,13 +16,8 @@ namespace RecipeAPI.Authentication
     {
         private IUserRepository userRepo;
 
-        public AccessTokenMessageHandler() : this(new UserRepository(new RecipesContext()))
+        public AccessTokenMessageHandler()
         {
-        }
-
-        public AccessTokenMessageHandler(IUserRepository userRepository)
-        {
-            userRepo = userRepository;
         }
 
         protected async override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
@@ -61,10 +56,13 @@ namespace RecipeAPI.Authentication
 
         public void SetUserPrincipal(string authorization)
         {
-            // ToDo: EF seems to be caching something. If you change the accesstoken expiry for 
-            // a token, EF will return the old value. This should never happen, but implies
-            // I'm doing something wrong with DbContexts
-            var user = userRepo.GetUserByAccessToken(authorization);
+            User user;
+
+            using (var context = new RecipesContext()){
+                var userRepo = new UserRepository(context);
+                user = userRepo.GetUserByAccessToken(authorization);
+            }
+
             UserIdentity identity = null;
 
             if (user != null && user.AccessTokenExpiry > DateTime.UtcNow)
