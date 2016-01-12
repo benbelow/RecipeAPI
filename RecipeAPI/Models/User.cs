@@ -19,5 +19,7 @@ namespace RecipeAPI.Models
         public string AccessToken { get; set; }
         public DateTime? AccessTokenExpiry { get; set; }
         public string RefreshToken { get; set; }
+
+        public virtual ICollection<StoreCupboardIngredient> StoreCupboardIngredients { get; set; }
     }
 }

@@ -229,7 +229,8 @@
     <Compile Include="Authentication\UserIdentity.cs" />
     <Compile Include="Authentication\UserPrincipal.cs" />
     <Compile Include="Controllers\AuthenticationController.cs" />
-    <Compile Include="Controllers\JavaScriptSerializer.cs" />
+    <Compile Include="Controllers\StoreCupboardController.cs" />
+    <Compile Include="Helpers\Comparers\StoreCupboardIngredientComparer.cs" />
     <Compile Include="Helpers\ControllerHelpers.cs" />
     <Compile Include="Helpers\TokenGenerator.cs" />
     <Compile Include="Helpers\UnixTimeConverter.cs" />
@@ -237,8 +238,16 @@
     <Compile Include="Migrations\201601101949522_AddUserTable.Designer.cs">
       <DependentUpon>201601101949522_AddUserTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201601112100201_AddStoreCupboardIngredientTable.cs" />
+    <Compile Include="Migrations\201601112100201_AddStoreCupboardIngredientTable.Designer.cs">
+      <DependentUpon>201601112100201_AddStoreCupboardIngredientTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DetailedStoreCupboard.cs" />
+    <Compile Include="Models\Mapping\StoreCupboardIngredientMap.cs" />
     <Compile Include="Models\Mapping\UserMap.cs" />
+    <Compile Include="Models\StoreCupboardIngredient.cs" />
     <Compile Include="Models\User.cs" />
+    <Compile Include="Repositories\StoreCupboardIngredientRepository.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Controllers\EquipmentController.cs" />
@@ -358,6 +367,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201601101949522_AddUserTable.resx">
       <DependentUpon>201601101949522_AddUserTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201601112100201_AddStoreCupboardIngredientTable.resx">
+      <DependentUpon>201601112100201_AddStoreCupboardIngredientTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

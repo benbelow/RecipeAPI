@@ -12,6 +12,7 @@ namespace RecipeAPI.Repositories
     public interface IRepository<T> where T : class
     {
         T Add(T entity);
+        void Remove(T entity);
         void SaveContext();
         IEnumerable<T> GetAll();
         void UpdateEntity(T entity);
@@ -35,6 +36,11 @@ namespace RecipeAPI.Repositories
         {
             Entities.Add(entity);
             return entity;
+        }
+
+        public void Remove(T entity)
+        {
+            Entities.Remove(entity);
         }
 
         public void SaveContext()

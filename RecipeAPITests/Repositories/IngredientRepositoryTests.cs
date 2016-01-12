@@ -33,7 +33,7 @@ namespace RecipeAPITests.Repositories
             TestDb.Seed(ingredient);
 
             var ingredients = repo.GetAll();
-            ingredients.First().ShouldBeEquivalentTo(ingredient);
+            ingredients.First().Name.Should().Be(ingredient.Name);
         }
 
         [Test]

@@ -20,5 +20,7 @@ namespace RecipeAPI.Models
 
         public virtual ICollection<IngredientDietaryRequirement> IngredientDietaryRequirements { get; set; }
         public virtual ICollection<RecipeIngredient> RecipeIngredients { get; set; }
+        public virtual ICollection<StoreCupboardIngredient> StoreCupboardIngredients { get; set; }
+
     }
 }
