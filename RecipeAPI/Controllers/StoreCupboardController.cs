@@ -119,7 +119,7 @@ namespace RecipeAPI.Controllers
                 user.StoreCupboardEquipments.Add(sce);
             }
 
-            StoreCupboardIngredientRepo.SaveContext();
+            StoreCupboardEquipmentRepo.SaveContext();
 
             return GetStoreCupboard();
         }
