@@ -15,6 +15,7 @@ namespace RecipeAPI.Repositories
         void Remove(T entity);
         void SaveContext();
         IEnumerable<T> GetAll();
+        IQueryable<T> GetAllQuery();
         void UpdateEntity(T entity);
     }
 
@@ -67,6 +68,11 @@ namespace RecipeAPI.Repositories
         public IEnumerable<T> GetAll()
         {
             return Entities.AsEnumerable();
+        }
+
+        public IQueryable<T> GetAllQuery()
+        {
+            return Entities;
         }
 
         public void UpdateEntity(T entity)

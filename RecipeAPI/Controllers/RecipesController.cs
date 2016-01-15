@@ -9,6 +9,7 @@ using RecipeAPI.Repositories;
 using RecipeAPI.Models;
 using RecipeAPI.Helpers.Extensions;
 using JsonPatch;
+using RecipeAPI.Authentication;
 
 namespace RecipeAPI.Controllers
 {
@@ -19,9 +20,10 @@ namespace RecipeAPI.Controllers
         private IIngredientRepository IngredientRepo { get; set; }
         private IRecipeIngredientRepository RecipeIngredientRepo { get; set; }
         private IEquipmentRepository EquipmentRepo { get; set; }
-        private IRecipeEquipmentRepository RecipeEquipmentRepo{ get; set; }
+        private IRecipeEquipmentRepository RecipeEquipmentRepo { get; set; }
+        private IUserRepository UserRepo { get; set; }
 
-        public RecipesController(IRecipeRepository recipeRepo, IRecipeIngredientRepository recipeIngredientRepo, IInstructionRepository instructionRepo, IIngredientRepository ingredientRepo, IEquipmentRepository equipmentRepo, IRecipeEquipmentRepository recipeEquipmentRepo)
+        public RecipesController(IRecipeRepository recipeRepo, IRecipeIngredientRepository recipeIngredientRepo, IInstructionRepository instructionRepo, IIngredientRepository ingredientRepo, IEquipmentRepository equipmentRepo, IRecipeEquipmentRepository recipeEquipmentRepo, IUserRepository userRepo)
         {
             RecipeRepo = recipeRepo;
             RecipeIngredientRepo = recipeIngredientRepo;
@@ -29,6 +31,7 @@ namespace RecipeAPI.Controllers
             IngredientRepo = ingredientRepo;
             EquipmentRepo = equipmentRepo;
             RecipeEquipmentRepo = recipeEquipmentRepo;
+            UserRepo = userRepo;
         }
 
         // GET api/recipes
@@ -37,26 +40,90 @@ namespace RecipeAPI.Controllers
         /// </summary>
         /// <param name="name">Recipe name</param>
         /// <param name="mealType">Type of meal</param>
-        /// <param name="ingredientsAny">List of ingredients, any of which should be in the recipe</param>
-        /// <param name="ingredientsAll">List of ingredients, all of which should be in the recipe</param>
-        /// <param name="equipment">List of cooking equipment, any of which should be used in in the recipe</param>
+        /// <param name="ingredients">List of ingredients, all of which should be in the recipe</param>
+        /// <param name="equipment">List of cooking equipment, all of which should be used in in the recipe</param>
+        /// <param name="restrictIngredients">Whether to restrict ingredients to just those in the store cupboard of the current user</param>
+        /// <param name="restrictEquipment">Whether to restrict equipment to just that in the store cupboard of the current user</param>
         /// <param name="maxTotalTime">Maximum time to prepare and cook the meal</param>
         /// <param name="minNumberOfServings">Minimum number of servings</param>
         /// <param name="limit"></param>
         /// <param name="offset"></param>
         [Route("api/Recipes")]
-        public IEnumerable<DetailedRecipe> GetRecipes(string name = "",
-                                               string mealType = "",
-                                               [FromUri] List<string> ingredientsAny = null,
-                                               [FromUri] List<string> ingredientsAll = null,
+        public HttpResponseMessage GetRecipes(string name = null,
+                                               string mealType = null,
+                                               [FromUri] List<string> ingredients = null,
                                                [FromUri] List<string> equipment = null,
+                                               bool restrictIngredients = false,
+                                               bool restrictEquipment = false,
                                                int? maxTotalTime = null,
                                                int? minNumberOfServings = null,
                                                int limit = 100,
                                                int offset = 0)
         {
-            return RecipeRepo.FilterRecipes(name, mealType, ingredientsAny, ingredientsAll, equipment, maxTotalTime,minNumberOfServings,limit,offset)
-                             .Select(r => new DetailedRecipe(r));
+
+            var recipes = RecipeRepo.GetAllQuery();
+
+            if (name != null)
+            {
+                recipes = recipes.FilterByName(name);
+            }
+
+            if (mealType != null)
+            {
+                recipes = recipes.FilterByMealType(mealType);
+            }
+
+            if (ingredients != null)
+            {
+                recipes = recipes.FilterByIngredients(ingredients);
+            }
+
+            if (equipment != null)
+            {
+                recipes = recipes.FilterByEquipment(equipment);
+            }
+
+            if (maxTotalTime != null)
+            {
+                recipes = recipes.FilterByMaxTime(maxTotalTime);
+            }
+
+            if (minNumberOfServings != null)
+            {
+                recipes = recipes.FilterByMinServings(minNumberOfServings);
+            }
+
+            if (restrictIngredients || restrictEquipment)
+            {
+                var principal = RequestContext.Principal;
+                if (!(principal is UserPrincipal))
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound);
+                }
+
+                var userId = ((UserPrincipal)principal).UserId;
+
+                var user = UserRepo.GetUserById(userId);
+
+                if (restrictIngredients)
+                {
+                    recipes = recipes.RestrictByIngredients(user.StoreCupboardIngredients.Select(i => i.Ingredient.Name).ToList());
+                }
+
+                if (restrictEquipment)
+                {
+                    recipes = recipes.RestrictByEquipment(user.StoreCupboardEquipments.Select(e => e.Equipment.Name).ToList());
+                }
+
+            }
+
+            var detailedRecipes = recipes.OrderBy(r => r.RecipeID)
+                          .Skip(offset)
+                          .Take(limit)
+                          .ToList()
+                          .Select(r => new DetailedRecipe(r));
+
+            return Request.CreateResponse(HttpStatusCode.OK, detailedRecipes);
         }
 
         public HttpResponseMessage GetRecipeByID(int id)
@@ -72,24 +139,6 @@ namespace RecipeAPI.Controllers
                 response = Request.CreateResponse(HttpStatusCode.OK, new DetailedRecipe(recipe));
             }
             return response;
-        }
-
-        /// <summary>
-        /// Searches recipes that only contain ingredients and recipes you specify
-        /// </summary>
-        /// <param name="ownedIngredients">Ingredients you have but do not require to be in the dish</param>
-        /// <param name="requiredIngredients">Ingredients you have which the dish must contain</param>
-        /// <param name="equipment">Equipment you have. Leave blank to not filter by equipment</param>
-        /// <returns></returns>
-        [HttpGet]
-        [Route("api/Recipes/With")]
-        public IEnumerable<DetailedRecipe> WithWhatIHave([FromUri] List<string> ownedIngredients = null,
-                                                            [FromUri] List<string> requiredIngredients = null,
-                                                            [FromUri] List<string> equipment = null)
-        {
-            return RecipeRepo.FilterWithWhatIHave(ownedIngredients, requiredIngredients, equipment)
-                             .Select(r => new DetailedRecipe(r));
-
         }
 
         [HttpPost]
