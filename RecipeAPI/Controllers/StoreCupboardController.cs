@@ -22,6 +22,7 @@ namespace RecipeAPI.Controllers
             )
         {
             StoreCupboardIngredientRepo = storeCupboardIngredientRepo;
+            StoreCupboardEquipmentRepo = storeCupboardEquipmentRepo;
             UserRepository = userRepository;
             IngredientRepository = ingredientRepository;
             EquipmentRepository = equipmentRepository;

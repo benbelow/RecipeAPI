@@ -254,6 +254,7 @@
     <Compile Include="Models\StoreCupboardEquipment.cs" />
     <Compile Include="Models\StoreCupboardIngredient.cs" />
     <Compile Include="Models\User.cs" />
+    <Compile Include="Repositories\RecipeFilters.cs" />
     <Compile Include="Repositories\StoreCupboardEquipmentRepository.cs" />
     <Compile Include="Repositories\StoreCupboardIngredientRepository.cs" />
     <Compile Include="Repositories\UserRepository.cs" />

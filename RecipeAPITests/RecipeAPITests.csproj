@@ -99,7 +99,6 @@
     <Compile Include="Builders\RecipeBuilder.cs" />
     <Compile Include="Controllers\EquipmentControllerTests.cs" />
     <Compile Include="Repositories\IngredientRepositoryTests.cs" />
-    <Compile Include="Repositories\RecipeRepositoryTests.cs" />
     <Compile Include="Builders\Builder.cs" />
     <Compile Include="TestHelpers\FakeItEasy\Dummy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
