@@ -19,6 +19,13 @@ namespace RecipeAPI.Controllers
     [Authorize]
     public class AuthenticationController : ApiController
     {
+        private readonly String[] AcceptedClientIDs = new[]
+                                             {
+                                                 "238308584955-48iu9i6rnk0vgrsbij2ioab385p1jb1h.apps.googleusercontent.com",
+                                                 "238308584955-f5megnjst1pq4a6s0n6iq4o2dm2biv47.apps.googleusercontent.com",
+                                                 "238308584955-k8a4dqq9nk090a5jk8ct45vv7ouqvts2.apps.googleusercontent.com",
+                                                 "238308584955-ebj29e3bbp7p3f8s9da3t372sd0j5859.apps.googleusercontent.com"
+                                             };
         private IUserRepository UserRepo { get; set; }
 
         public AuthenticationController(IUserRepository userRepo)
@@ -87,9 +94,9 @@ namespace RecipeAPI.Controllers
 
         private bool GoogleTokenValid(GoogleVerificationResponse googleResponse)
         {
-            return googleResponse.iss == "https://accounts.google.com"
+            return (googleResponse.iss == "https://accounts.google.com" || googleResponse.iss == "accounts.google.com")
                 && UnixTimeConverter.FromUnixTime(googleResponse.exp) > DateTime.UtcNow
-                && googleResponse.aud.Contains("238308584955-f5megnjst1pq4a6s0n6iq4o2dm2biv47.apps.googleusercontent.com");
+                && AcceptedClientIDs.Contains(googleResponse.aud);
         }
 
     }
